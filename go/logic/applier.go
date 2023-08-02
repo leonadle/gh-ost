@@ -1150,8 +1150,11 @@ func (this *Applier) ApplyDMLEventQueries(dmlEvents [](*binlog.BinlogDMLEvent)) 
 			return err
 		}
 
-		sessionQuery := "SET SESSION time_zone = '+00:00'"
-		sessionQuery = fmt.Sprintf("%s, %s", sessionQuery, this.generateSqlModeQuery())
+		// sessionQuery := "SET SESSION time_zone = '+00:00'"
+		// sessionQuery = fmt.Sprintf("%s, %s", sessionQuery, this.generateSqlModeQuery())
+		
+		// use default global time_zone
+		sessionQuery := fmt.Sprintf("SET SESSION %s", this.generateSqlModeQuery())
 
 		if _, err := tx.Exec(sessionQuery); err != nil {
 			return rollback(err)
