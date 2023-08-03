@@ -80,6 +80,7 @@ type MigrationContext struct {
 	DatabaseName          string
 	OriginalTableName     string
 	AlterStatement        string
+	DefaultCharset        string
 	AlterStatementOptions string // anything following the 'ALTER TABLE [schema.]table' from AlterStatement
 
 	countMutex               sync.Mutex

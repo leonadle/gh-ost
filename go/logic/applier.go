@@ -279,7 +279,8 @@ func (this *Applier) AlterGhost() error {
 		}
 		defer tx.Rollback()
 
-		sessionQuery := fmt.Sprintf(`SET SESSION time_zone = '%s'`, this.migrationContext.ApplierTimeZone)
+		// sessionQuery := fmt.Sprintf(`SET SESSION time_zone = '%s'`, this.migrationContext.ApplierTimeZone)
+		sessionQuery := fmt.Sprintf(`SET SESSION time_zone = '%s', character_set_client = %s`, this.migrationContext.ApplierTimeZone, this.migrationContext.DefaultCharset)
 		sessionQuery = fmt.Sprintf("%s, %s", sessionQuery, this.generateSqlModeQuery())
 
 		if _, err := tx.Exec(sessionQuery); err != nil {
@@ -1152,7 +1153,7 @@ func (this *Applier) ApplyDMLEventQueries(dmlEvents [](*binlog.BinlogDMLEvent)) 
 
 		// sessionQuery := "SET SESSION time_zone = '+00:00'"
 		// sessionQuery = fmt.Sprintf("%s, %s", sessionQuery, this.generateSqlModeQuery())
-		
+
 		// use default global time_zone
 		sessionQuery := fmt.Sprintf("SET SESSION %s", this.generateSqlModeQuery())
 
