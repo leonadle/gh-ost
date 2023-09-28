@@ -38,8 +38,8 @@ func buildColumnsPreparedValues(columns *ColumnList) []string {
 		var token string
 		if column.timezoneConversion != nil {
 			token = fmt.Sprintf("convert_tz(?, '%s', '%s')", column.timezoneConversion.ToTimezone, "+00:00")
-		} else if column.enumToTextConversion {
-			token = fmt.Sprintf("ELT(?, %s)", column.EnumValues)
+		// } else if column.enumToTextConversion {
+		// 	token = fmt.Sprintf("ELT(?, %s)", column.EnumValues)
 		} else if column.Type == JSONColumnType {
 			token = "convert(? using utf8mb4)"
 		} else {
