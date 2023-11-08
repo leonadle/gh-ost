@@ -110,8 +110,8 @@ func BuildSetPreparedClause(columns *ColumnList) (result string, err error) {
 		var setToken string
 		if column.timezoneConversion != nil {
 			setToken = fmt.Sprintf("%s=convert_tz(?, '%s', '%s')", EscapeName(column.Name), column.timezoneConversion.ToTimezone, "+00:00")
-			// } else if column.enumToTextConversion {
-			// 	setToken = fmt.Sprintf("%s=ELT(?, %s)", EscapeName(column.Name), column.EnumValues)
+		} else if column.enumToTextConversion {
+			setToken = fmt.Sprintf("%s=ELT(?, %s)", EscapeName(column.Name), column.EnumValues)
 		} else if column.Type == JSONColumnType {
 			setToken = fmt.Sprintf("%s=convert(? using utf8mb4)", EscapeName(column.Name))
 		} else {
